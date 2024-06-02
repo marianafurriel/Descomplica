@@ -17,6 +17,7 @@ import Modal from '@mui/material/Modal';
 
 import CriarTarefa from './CriarTarefa';
 import EditarTarefa from './EditarTarefa';
+import { height, textAlign, width } from '@mui/system';
 
 //A função abaixo é usada para criar o array contendo os dados iniciais da listagem de tarefas.
 function createData(
@@ -175,21 +176,48 @@ const ListarTarefa = () => {
     </div>
     //modal de deleção
     <div>
-      <Modal
+      <Modal style={style}
         open={openDeletar}
         onClose={handleCloseDeletar}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <div>
-         deseja deletar?
-         <button onClick={deletar}>sim</button>
-         <button onClick={handleCloseDeletar}>não</button>
+        <div style={style2}>
+         <h2>Deseja mesmo deletar essa tarefa?</h2>
+         <div style={botoes}>
+         <Button variant="contained" color="success" onClick={() => deletar()}>Sim</Button>   
+         <Button variant="contained" color="error" onClick={() => setOpenDeletar(false)}>Não</Button> 
+         </div>
         </div>
-      </Modal>  
+      </Modal>
     </div>
   </>    
  );
 };
  
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  height: 'fit-content',
+  padding: 20,
+  backgroundColor: "white",
+  boxShadow: 24,
+  p: 4,
+  textAlign:'center',
+};
+
+const style2 = {
+  margin: 'auto',
+}
+
+const botoes ={
+  display: 'flex',
+  justifyContent: 'space-evenly',
+  width: 300,
+  margin: 'auto',
+}
+
 export default ListarTarefa;
