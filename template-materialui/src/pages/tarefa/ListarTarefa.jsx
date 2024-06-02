@@ -45,12 +45,15 @@ const initialRows = [
 const ListarTarefa = () => {
   const [open, setOpen] = useState(false);
   const [openEditar, setOpenEditar] = useState(false);
+  const [openDeletar, setOpenDeletar] = useState(false)
   const [tarefas, setTarefas] = useState([]);
   const [tarefa, setTarefa] = useState();
   const [idTarefaSelecionada, setIdTarefaSelecionada] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleOpenEditar = () => setOpenEditar(true);
+  const handleOpenDeletar = () => setOpenDeletar(true);
+  const handleCloseDeletar = () => setOpenDeletar(false);
   const handleCloseEditar = () => setOpenEditar(false);
 
   //O array definido acima é setado como conteúdo do state Tarefas na renderização inicial do componente.
@@ -73,13 +76,21 @@ const ListarTarefa = () => {
     setOpenEditar(true)
   };
 
+  //abre o modal de confirmação de deleção e seta o id para a tarefa que queremos deletar
   const handleDeletar = (id) => {
+    setOpenDeletar(true)
+    setIdTarefaSelecionada(id);  
+  };
+
+  //efetivamente deleta a tarefa
+  const deletar = ()=>{
     setTarefas(current =>
       current.filter(tarefa => {
-        return tarefa.idTarefa !== id;
+        return tarefa.idTarefa !== idTarefaSelecionada;
       }),
     );
-  };
+    setOpenDeletar(false);
+  }
 
     return(
     <>
@@ -159,6 +170,21 @@ const ListarTarefa = () => {
       >
         <div>
           <EditarTarefa handleCloseEditar={handleCloseEditar} idTarefaSelecionada={idTarefaSelecionada} tarefas={tarefas} tarefa={tarefa} setTarefas={setTarefas} />
+        </div>
+      </Modal>  
+    </div>
+    //modal de deleção
+    <div>
+      <Modal
+        open={openDeletar}
+        onClose={handleCloseDeletar}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <div>
+         deseja deletar?
+         <button onClick={deletar}>sim</button>
+         <button onClick={handleCloseDeletar}>não</button>
         </div>
       </Modal>  
     </div>
